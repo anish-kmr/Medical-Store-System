@@ -5,6 +5,11 @@
 #define CUSTOMER 2
 #define OWNER 1
 
+// Constants for return status of int validate()
+#define OK 0
+#define FEILDS_EMPTY -1
+#define NO_MATCH 1
+
 
 typedef struct {
     char username[15];
