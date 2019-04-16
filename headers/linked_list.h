@@ -2,20 +2,26 @@
 #define LINKED_H
 
 struct node{
-	int data;
-	struct node *next;
+    int data;
+    struct node *next;
 };
 
 typedef struct list{
-	int length;
-	struct node *head;
+    int length;
+    struct node *head;
 } LinkedList;
 
+typedef struct node node;
+
 struct node* createNode(int data);
-LinkedList *createLinkedList(struct node *head);
-void addNode(LinkedList *ll, struct node *n);
+LinkedList *createLinkedList();
+void addNode(LinkedList *ll, int newdata);
 void removeLastNode(LinkedList *ll);
+void print(LinkedList* ll)
 //add more functions if necessary
 //function definitions in "linkedlist.c"
 
 #endif
+
+	
+	
