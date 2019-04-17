@@ -11,5 +11,5 @@ Date *createDate(int y, int m, int d) {
 }
 
 void printDate(Date *d) {
-	printf("%2d%2d%4d", d->day, d->month, d->year);
+	printf("%2d/%2d/%4d\n", d->day, d->month, d->year);
 }
