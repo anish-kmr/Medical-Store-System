@@ -1,6 +1,10 @@
 #include<stdlib.h>
 #include "linkedlist.h"
-
+struct test
+{
+    int id;
+    int pd;
+};
 Node* createNode(void *data) {
     Node *newnode = (Node*)malloc(sizeof(Node));
     newnode->data=data;
@@ -9,7 +13,7 @@ Node* createNode(void *data) {
 }
 
 LinkedList *createLinkedList() {
-    LinkedList* newlist;
+    LinkedList* newlist = (LinkedList*)malloc(sizeof(LinkedList));
     newlist->length=0;
     newlist->head=NULL;
     return newlist;
@@ -18,6 +22,7 @@ LinkedList *createLinkedList() {
 void addNode(LinkedList *ll, Node *n) {
     if (ll->head == NULL) {
         ll->head = n;
+        return;
     }
 
     Node *current = ll->head;
@@ -52,10 +57,41 @@ void removeLastNode(LinkedList *ll) {
 void printList(LinkedList* ll) {
     Node* current_node = ll->head;
     while(current_node != NULL) {
-        printf("%d ",current_node->data );
+        printf("%d ",((struct test*)(current_node->data))->id );
         current_node=current_node->next;
     }
 
 }
 
+//TEST FOR LINKED LIST
+//CHAL RHA HAI
+// int main()
+// {
+//     LinkedList *list_struct=createLinkedList();
+//     LinkedList *list_int=createLinkedList();
 
+
+//     struct test t1;
+//     t1.pd = 10;
+//     t1.id = 20;
+//     struct test t2;
+//     t2.id=1000;
+//     t2.pd = 223131;
+//     addNode(list_struct,createNode(&t1));
+//     addNode(list_struct,createNode(&t2));
+//     printf("list of struct : \n");
+//     printList(list_struct);
+
+
+//     int a=99,b=100;
+//     int*x,*y;
+//     x=&a;
+//     y=&b;
+//     addNode(list_int,createNode(x));
+//     addNode(list_int,createNode(y));
+
+//     printf("\nlist of int:\n");
+//     printList(list_int);
+//     getch();
+//     return 0;
+// }
