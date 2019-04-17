@@ -2,7 +2,7 @@
 #include "linkedlist.h"
 
 Node* createNode(void *data) {
-    node *newnode = (node*)malloc(sizeof(node));
+    Node *newnode = (Node*)malloc(sizeof(Node));
     newnode->data=data;
     newnode->next=NULL;
     return newnode;
@@ -55,4 +55,7 @@ void printList(LinkedList* ll) {
         printf("%d ",current_node->data );
         current_node=current_node->next;
     }
+
 }
+
+
