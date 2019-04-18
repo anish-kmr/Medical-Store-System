@@ -1,6 +1,7 @@
 #include<string.h>
 #include<stdio.h>
 #include"credentials.h"
+#include"file_handle.h"
 
 #define UNMATCHED 0
 #define FIELD_EMPTY -1
@@ -77,6 +78,9 @@ int validate(Credentials* info){
 //     printf("hello\n");
 //     Credentials info;
 //     getCredentials(&info);
-//     printf(" \nstatus = %d",validate(&info));
+//     if(validate(&info)){ 
+//         writeCredentials(&info);
+//         writeInfo(&info);
+//     }
 //     return 0;
 // }
