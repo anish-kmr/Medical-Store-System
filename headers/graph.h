@@ -17,21 +17,31 @@ typedef struct {
 } Contact_Details;
 
 typedef struct {
-    int received, sent;
     int id;
     int quantity;
     Contact_Details *cd;
-    Level from, to;
+    int id_from, id_to;
 } Receipt;
 
 typedef struct {
-    Receipt *rec;
+    int id;
+    LinkedList *recs;
     LinkedList *crates;
     Level lvl;
     LinkedList *children;
-} Graph;
+} Vertex;
 
-Receipt *generateReceipt(int received, int sent, Contact_Details *cd, Level from, Level to);
+Contact_Details *createContact(char n[30], long int pno, char e[50], char a[100]);
+Receipt *createReceipt(int received, int id, int quantity, Contact_Details *cd, Level from, Level to);
+Vertex *createVertex(LinkedList *rec, LinkedList *c, Level l, LinkedList *v);
+
+Vertex *dfs(Vertex *root, Vertex *v);
+void addVertex(Vertex *root, Vertex *parent, Vertex *v);
+void removeNode(Vertex *v);
+
+Receipt *generateReceipt(int rec, int i, int q, Contact_Details *cd, Level from, Level to);
 void sendCrate(Receipt *rec);
+// verify for receipt of every node
+void verify(Receipt *rec);
 
 #endif
