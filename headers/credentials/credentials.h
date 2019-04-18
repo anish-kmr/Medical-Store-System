@@ -1,23 +1,20 @@
+#include "../graph.h"
 #ifndef CREDENTIAL_H
 #define CREDENTIAL_H
 
-#define CUSTOMER 2
-#define OWNER 1
-
-#define SUCCESS 0
-#define FAIL 1
+#define SUCCESS 1
+#define FAIL 0
 #define FEILD_EMPTY -1
 
 typedef struct {
-	char username[15];
-	char storename[20];
-	char address[50];
-	int pno;
-	char email[20];
-	char pwd[20];
-	char cpwd[20];
+	Level type;
+	Contact_Details contactDetails;
+	char password[20];
+	char confirmPassword[20];
+
 } Credentials;
 
-int validate(Credentials*, int type);
+void getCredentials(Credentials*);
+int validate(Credentials*);
 
 #endif
