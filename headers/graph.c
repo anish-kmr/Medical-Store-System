@@ -7,7 +7,7 @@ Contact_Details *createContact(char n[30], long int pno, char e[50], char a[100]
     Contact_Details *cd = (Contact_Details *)malloc(sizeof(Contact_Details));
     strcpy(cd->name, n);
     cd->phone = pno;
-    strcpy(cd->email. e);
+    strcpy(cd->email, e);
     strcpy(cd->address, a);
     return cd;
 }
