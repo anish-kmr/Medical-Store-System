@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "graph.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -35,10 +36,14 @@ int login(Level type,char* id,char*pwd){
 
 }
 
-// main(){
-//     char id[] = "ad";
-//     char pwd[] = "password";
-//     int st=login(MANUFACTURER,id,pwd);
-//     printf("%d",st);
+int main(){
+    // char id[] = "ad";
+    // char pwd[] = "password";
+    // int st=login(MANUFACTURER,id,pwd);
+    // printf("%d",st);
+    printf("\t ________________________\n");
+    printf("\t|         HELLO          |\n");
+    printf("\t|________________________|\n");
+    return 0;
 
-// }
+}
