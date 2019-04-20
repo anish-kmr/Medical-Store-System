@@ -1,5 +1,6 @@
 #include"util.h"
 #include<stdlib.h>
+#include<string.h>
 #include<stdio.h>
 
 Date *createDate(int y, int m, int d) {

@@ -1,7 +1,7 @@
 #ifndef MEDICINE
 #define MEDICINE
 
-#include"date.h"
+#include "util.h"
 
 typedef enum {
 	false,

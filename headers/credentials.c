@@ -1,15 +1,13 @@
 #include<string.h>
 #include<stdio.h>
 #include"credentials.h"
-#include"../display.h"
+#include"login.h"
+#include"display.h"
 #include"file_handle.h"
 
-#define UNMATCHED 0
-#define FIELD_EMPTY -1
-#define SUCCESS 1
 
 
-void getCredentials(Credentials* info){
+void getSignup(Credentials* info){
     int type_choice;
     header();
     signupMenu();
@@ -48,12 +46,12 @@ void getCredentials(Credentials* info){
     scanf(" %[^\n]%*c", info->contactDetails.name);
     
 
-     printf("\t|_______________________________________________________________________________|\n");
+    printf("\t|_______________________________________________________________________________|\n");
     printf("\t|  Phone No.  : ");
     scanf(" %ld", &info->contactDetails.phone);
 
 
-     printf("\t|_______________________________________________________________________________|\n");
+    printf("\t|_______________________________________________________________________________|\n");
     printf("\t|  E-Mail ID  : ");
     getchar();
     scanf(" %[^\n]%*c", info->contactDetails.email);
@@ -74,8 +72,31 @@ void getCredentials(Credentials* info){
 
 }
 
+void getLogin(Level* type , char *uname,char* pwd){
+    header();
+    loginMenu();
+    int type_choice;
+    printf("\t|    SELECT TYPE                                                                |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+    
+    do{
+        printf("\t|                                                                               |\n");
+        printf("\t|  1.Manufacturer              2.Distributor                3.Shop              |\n");
+        type_choice=inputBox();
+    }while(type_choice!=1 && type_choice!=2 && type_choice!=3);
+    printf("\t|_______________________________________________________________________________|\n");
+    printf("\t|  USER-NAME  : ");
+    scanf(" %[^\n]%*c", uname);
+
+
+    printf("\t|_______________________________________________________________________________|\n");
+    printf("\t|  PASSWORD  : ");
+    scanf(" %[^\n]%*c",pwd);
+    printf("\t|_______________________________________________________________________________|\n");
+}
+
 int validate(Credentials* info){
-    if(info->contactDetails.name[0]=='\0'|| info->password[0]=='\0' || info->contactDetails.email[0]=='\0' || info->confirmPassword[0]=='\0' || info->contactDetails.address[0]=='\0'  ) return FIELD_EMPTY;
+    if(info->contactDetails.name[0]=='\0'|| info->password[0]=='\0' || info->contactDetails.email[0]=='\0' || info->confirmPassword[0]=='\0' || info->contactDetails.address[0]=='\0'  ) return FEILD_EMPTY;
     if(strcmp(info->password,info->confirmPassword)) return UNMATCHED;
     
     return SUCCESS;
@@ -87,14 +108,17 @@ int validate(Credentials* info){
 // P R O B L E M ---> Jab phone no. me character daalne ki koshish karte hai to email id ka input skip ho jaata hai
 
 
-int main(){
-    printf("hello\n");
-
-    Credentials info;
-    getCredentials(&info);
-    if(validate(&info)){ 
-        writeCredentials(&info);
-        writeInfo(&info);
-    }
-    return 0;
-}
+// int main(){
+//     printf("hello\n");
+//     char uname[50],pwd[50];
+//     Level type;
+//     Credentials info;
+//     getLogin(&type,uname,pwd);
+//     int status = login(type,uname,pwd);
+//     printf("\n\n %d\n\n",status);
+//     // if(validate(&info)){ 
+//     //     writeCredentials(&info);
+//     //     writeInfo(&info);
+//     // }
+//     return 0;
+// }

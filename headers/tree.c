@@ -6,7 +6,7 @@
 
 Vertex *createVertex(LinkedList *rec, LinkedList *cr, Level l, LinkedList *v) {
     Vertex *vert = (Vertex *)malloc(sizeof(Vertex));
-    vert->id = //some unique value;
+    // vert->id = //some unique value;
     vert->recs = rec;
     vert->crates = cr;
     vert->lvl = l;
