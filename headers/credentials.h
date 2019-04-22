@@ -1,9 +1,12 @@
-#include "../graph.h"
+#include "util.h"
+
 #ifndef CREDENTIAL_H
 #define CREDENTIAL_H
 
+#ifndef SUCCESS 
 #define SUCCESS 1
-#define FAIL 0
+#endif
+#define UNMATCHED 0
 #define FEILD_EMPTY -1
 
 typedef struct {
@@ -14,7 +17,8 @@ typedef struct {
 
 } Credentials;
 
-void getCredentials(Credentials*);
+void getSignup(Credentials*);
+void getLogin(Level* type ,char *uname,char*pwd);
 int validate(Credentials*);
 
 #endif

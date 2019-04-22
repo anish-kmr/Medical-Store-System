@@ -38,7 +38,7 @@ void removeLastNode(LinkedList *ll) {
     if(ll->length == 0){
         printf("List Already Empty\n");
     }
-    else if(ll->length == 1){
+    else  if(ll->length == 1){
         deleted_node=current_node;
         ll->head = NULL;
     }
