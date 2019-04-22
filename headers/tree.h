@@ -6,19 +6,18 @@
 
 typedef struct {
     int id;
-    LinkedList *recs;
-    LinkedList *crates;
     Level lvl;
+    LinkedList *ords;
+    LinkedList *recs;
+    LinkedList *store;
     LinkedList *children;
 } Vertex;
 
-Vertex *createVertex(LinkedList *rec, LinkedList *c, Level l, LinkedList *v);
+Vertex *createVertex(int id, Level lvl, LinkedList *ords, LinkedList *recs, LinkedList *store, LinkedList *children);
 void addVertex(Vertex *root, Vertex *parent, Vertex *v);
 void removeNode(Vertex *v);
-
-Receipt *generateReceipt(int rec, int i, int q, Contact_Details *cd, Level from, Level to);
-void sendCrate(Receipt *rec);
-// verify for receipt of every node
-void verify(Receipt *rec);
+void printVertex(Vertex *v);
+void listOrders(Vertex *v);
+void listShipments(Vertex *v);
 
 #endif

@@ -1,11 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "linkedlist.h"
-struct test
-{
-    int id;
-    int pd;
-};
+
 Node* createNode(void *data) {
     Node *newnode = (Node*)malloc(sizeof(Node));
     newnode->data=data;
@@ -31,6 +27,7 @@ void addNode(LinkedList *ll, Node *n) {
         current = current->next;
     }
     current->next = n;
+    ll->length++;
 }
 
 void removeLastNode(LinkedList *ll) {
@@ -58,7 +55,6 @@ void removeLastNode(LinkedList *ll) {
 void printList(LinkedList* ll) {
     Node* current_node = ll->head;
     while(current_node != NULL) {
-        printf("%d ",((struct test*)(current_node->data))->id );
         current_node=current_node->next;
     }
 

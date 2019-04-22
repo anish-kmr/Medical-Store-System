@@ -2,21 +2,25 @@
 #include"tree.h"
 #include<stdlib.h>
 #include<string.h>
+#include<stdio.h>
 
-
-Vertex *createVertex(LinkedList *rec, LinkedList *cr, Level l, LinkedList *v) {
+Vertex *createVertex(int id, Level l, LinkedList *ord, LinkedList *rec, LinkedList *st, LinkedList *children) {
     Vertex *vert = (Vertex *)malloc(sizeof(Vertex));
-    vert->id = //some unique value;
-    vert->recs = rec;
-    vert->crates = cr;
+    vert->id = id;
     vert->lvl = l;
+    vert->ords = ord;
+    vert->recs = rec;
+    vert->store = st;
     vert->children = v;
-    return;
+    return vert;
 }
 
 void addVertex(Vertex *root, Vertex *parent, Vertex *child) {
     if(root == NULL) return;
     if(root->id == parent->id) {
+        if(root->children == NULL) {
+            root->children = createLinkedList();
+        }
         addNode(root->children, createNode(child));
         return;
     }
@@ -25,4 +29,37 @@ void addVertex(Vertex *root, Vertex *parent, Vertex *child) {
         addVertex(curr->data, parent, child);
         curr = curr->next;
     }
+}
+
+void printVertex(Vertex *v) {
+    printf("List of the receipts here:\n");
+    printf("------------------------------------------------------\n");
+    Node *curr = v->recs->head;
+    while(curr != NULL) {
+        printReceipt(curr->data);
+        curr = curr->next;
+    }
+    printf("------------------------------------------------------\n");
+}
+
+void listOrders(Vetex *v) {
+    printf("Pending Orders:\n");
+    printf("------------------------------------------------------\n");
+    Node *curr = v->ords->head;
+    while(curr != NULL) {
+        printReceipt(curr->data);
+        curr = curr->next;
+    }
+    printf("------------------------------------------------------\n");
+}
+
+void listShipments(Vertex *v) {
+    printf("Past successful shipments:\n");
+    printf("------------------------------------------------------\n");
+    Node *curr = v->recs->head;
+    while(curr != NULL) {
+        printReceipt(curr->data);
+        curr = curr->next;
+    }
+    printf("------------------------------------------------------\n");
 }
