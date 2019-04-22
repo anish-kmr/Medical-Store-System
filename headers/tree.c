@@ -4,14 +4,15 @@
 #include<string.h>
 #include<stdio.h>
 
-Vertex *createVertex(int id, Level l, LinkedList *ord, LinkedList *rec, LinkedList *st, LinkedList *children) {
+Vertex *createVertex(int id, Level l, LinkedList *ord, LinkedList *pend, LinkedList *rec, LinkedList *st, LinkedList *children) {
     Vertex *vert = (Vertex *)malloc(sizeof(Vertex));
     vert->id = id;
     vert->lvl = l;
     vert->ords = ord;
+    vert->pending = pend;
     vert->recs = rec;
     vert->store = st;
-    vert->children = v;
+    vert->children = children;
     return vert;
 }
 
@@ -29,37 +30,4 @@ void addVertex(Vertex *root, Vertex *parent, Vertex *child) {
         addVertex(curr->data, parent, child);
         curr = curr->next;
     }
-}
-
-void printVertex(Vertex *v) {
-    printf("List of the receipts here:\n");
-    printf("------------------------------------------------------\n");
-    Node *curr = v->recs->head;
-    while(curr != NULL) {
-        printReceipt(curr->data);
-        curr = curr->next;
-    }
-    printf("------------------------------------------------------\n");
-}
-
-void listOrders(Vetex *v) {
-    printf("Pending Orders:\n");
-    printf("------------------------------------------------------\n");
-    Node *curr = v->ords->head;
-    while(curr != NULL) {
-        printReceipt(curr->data);
-        curr = curr->next;
-    }
-    printf("------------------------------------------------------\n");
-}
-
-void listShipments(Vertex *v) {
-    printf("Past successful shipments:\n");
-    printf("------------------------------------------------------\n");
-    Node *curr = v->recs->head;
-    while(curr != NULL) {
-        printReceipt(curr->data);
-        curr = curr->next;
-    }
-    printf("------------------------------------------------------\n");
 }

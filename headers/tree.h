@@ -2,22 +2,27 @@
 #define TREE_H
 
 #include"linkedlist.h"
-#include"util.h"
+
+typedef enum {
+    MANUFACTURER,
+    STATE,
+    DISTRIBUTOR,
+    SHOP
+} Level;
 
 typedef struct {
     int id;
     Level lvl;
     LinkedList *ords;
+    LinkedList *pending;
     LinkedList *recs;
     LinkedList *store;
     LinkedList *children;
 } Vertex;
 
-Vertex *createVertex(int id, Level lvl, LinkedList *ords, LinkedList *recs, LinkedList *store, LinkedList *children);
+Vertex *createVertex(int id, Level lvl, LinkedList *ords, LinkedList *pending, LinkedList *recs, LinkedList *store, LinkedList *children);
 void addVertex(Vertex *root, Vertex *parent, Vertex *v);
 void removeNode(Vertex *v);
 void printVertex(Vertex *v);
-void listOrders(Vertex *v);
-void listShipments(Vertex *v);
 
 #endif

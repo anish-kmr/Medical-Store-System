@@ -1,12 +1,10 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-typedef enum {
-    MANUFACTURER,
-    STATE,
-    DISTRIBUTOR,
-    SHOP
-} Level; 
+#include"tree.h"
+#include<stdlib.h>
+#include<string.h>
+#include<stdio.h>
 
 typedef struct { 
     char name[30]; 
@@ -37,6 +35,7 @@ typedef struct {
     int id;
     Medicine *med;
     int quantity;
+    Date *date;
     Contact_Details *cd;
     int id_from, id_to;
 } Receipt;
@@ -47,10 +46,15 @@ void printMedicine(Medicine *med);
 void printDate(Date *d);
 Contact_Details *createContact(char n[30], long int pno, char e[50], char a[100]);
 void printContact(Contact_Details *cd);
-Receipt *createReceipt(int id, Medicine *med, int quantity, Contact_Details *cd, int from, int to);
+Receipt *createReceipt(int id, Medicine *med, Date *date, int quantity, Contact_Details *cd, int from, int to);
 void printReceipt(Receipt *rec);
-void placeOrder(Receipt *ord);
-void sendShipment(Receipt *rec);
+void placeOrder(Vertex *root, Receipt *ord);
+void addCrate(Vertex *v, Crate *c);
+void sendShipment(Vertex *root, Receipt *rec, Crate *c);
+void printVertex(Vertex *v);
+void listPending(Vertex *v);
+void listOrders(Vertex *v);
+void listShipments(Vertex *v);
 void verify(Vertex *v);
 
 #endif

@@ -1,9 +1,4 @@
-#include"tree.h"
 #include"util.h"
-#include<stdlib.h>
-#include<string.h>
-#include<stdio.h>
-#include<string.h>
 
 Date *createDate(int y, int m, int d) {
 	Date *date = (Date *)malloc(sizeof(Date));
@@ -50,11 +45,12 @@ void printContact(Contact_Details *cd) {
     printf("Address:\t%s\n", cd->address);
 }
 
-Receipt *createReceipt(int i, Medicine *m, int q, Contact_Details *cd, int f, int t) {
+Receipt *createReceipt(int i, Medicine *m, Date *d, int q,  Contact_Details *cd, int f, int t) {
     Receipt *r = (Receipt *)malloc(sizeof(Receipt));
     r->id = i;
     r->med = m;
     r->quantity = q;
+    r->date = d;
     r->cd = cd;
     r->id_from = f;
     r->id_to = t;
@@ -64,12 +60,69 @@ Receipt *createReceipt(int i, Medicine *m, int q, Contact_Details *cd, int f, in
 void printReceipt(Receipt *rec) {
     printf("Receipt:\n=====================================================\n");
     printf("Id:\t %d\n", rec->id);
+    printf("Date:\t");
+    printDate(rec->date);
     printf("Medicine Details:\n--------------------------------------------\n");
     printMedicine(rec->med);
     printf("Quantity:\t %d\n", rec->quantity);
     printf("Buyer Details:\n-----------------------------------------------\n");
     printContact(rec->cd);
     printf("From ID: %d \t To ID: %d\n", rec->id_from, rec->id_to);
+}
+
+void printVertex(Vertex *v) {
+    if(v->recs->length == 0) {
+        printf("No receipts.\n");
+    } else {
+        printf("List of the receipts here:\n");
+        printf("------------------------------------------------------\n");
+        Node *curr = v->recs->head;
+        while(curr != NULL) {
+            printReceipt(curr->data);
+            curr = curr->next;
+        }
+        printf("------------------------------------------------------\n");
+    }
+    listOrders(v);
+    listPending(v);
+}
+
+void listPending(Vertex *v) {
+    if(v->pending->length == 0) {
+        printf("No orders to verify.\n");
+        return;
+    }
+    Node *curr = v->pending->head;
+    while(curr != NULL) {
+        printReceipt(curr->data);
+        curr = curr->next;
+    }
+}
+
+void listOrders(Vertex *v) {
+    if(v->ords->length == 0) {
+        printf("No Orders.\n");
+    } else {
+        printf("Pending Orders:\n");
+        printf("------------------------------------------------------\n");
+        Node *curr = v->ords->head;
+        while(curr != NULL) {
+            printReceipt(curr->data);
+            curr = curr->next;
+        }
+        printf("------------------------------------------------------\n");
+    }
+}
+
+void listShipments(Vertex *v) {
+    printf("Past successful shipments:\n");
+    printf("------------------------------------------------------\n");
+    Node *curr = v->recs->head;
+    while(curr != NULL) {
+        printReceipt(curr->data);
+        curr = curr->next;
+    }
+    printf("------------------------------------------------------\n");
 }
 
 void placeOrder(Vertex *root, Receipt *ord) {
@@ -88,7 +141,7 @@ void placeOrder(Vertex *root, Receipt *ord) {
 void addCrate(Vertex *v, Crate *c) {
     Node *crate = v->store->head;
     while(crate != NULL) {
-        if(strcmp(((Crate *)(crate->data))->med->name, c->name) == 0) {
+        if(strcmp(((Crate *)(crate->data))->med->name, c->med->name) == 0) {
             ((Crate *)(crate->data))->quantity += c->quantity;
             break;
         }
@@ -100,14 +153,32 @@ void addCrate(Vertex *v, Crate *c) {
 void sendShipment(Vertex *root, Receipt *rec, Crate *c) {
     if(root == NULL) return;
     if(root->id == rec->id_to) {
-        addNode(root->recs, createNode(rec));
-        addCrate(root, c);
-        // print details to a file
-        return;
+        addNode(root->pending, createNode(rec));
     }
     Node *child = root->children->head;
     while(child != NULL) {
-        sendShipment(child->data, rec);
+        sendShipment(child->data, rec, c);
         child = child->next;
+    }
+}
+
+void verify(Vertex *v) {
+    int n;
+    char ch = 'y';
+    Node *curr = v->pending->head;
+    printf("Starting verification of pending receipts, when asked, press n to quit.\n");
+    while(curr != NULL && ch != 'n') {
+        printf("Verifying for shipment of %s on date ", ((Receipt *)(curr->data))->med->name);
+        printDate(((Receipt *)(curr->data))->date);
+        printf("What quantity of the above did you receive?\n");
+        scanf("%d", &n);
+        if(n == ((Receipt *)(curr->data))->quantity) {
+            addNode(v->recs, curr);
+            removeLastNode(v->pending);
+        }
+        else
+            printf("There has been some problem, please signify the concerned authorities,\n");
+        printf("Continue verification?");
+        scanf("%c", ch);
     }
 }
