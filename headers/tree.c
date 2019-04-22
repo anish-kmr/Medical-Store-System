@@ -6,13 +6,7 @@
 
 Vertex *createVertex(int id, Level l, LinkedList *ord, LinkedList *rec, LinkedList *st, LinkedList *children) {
     Vertex *vert = (Vertex *)malloc(sizeof(Vertex));
-<<<<<<< HEAD
     vert->id = id;
-=======
-    // vert->id = //some unique value;
-    vert->recs = rec;
-    vert->crates = cr;
->>>>>>> c1acb0751dc872f1e44a1f067b60a6645a0c9514
     vert->lvl = l;
     vert->ords = ord;
     vert->recs = rec;
