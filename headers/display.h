@@ -1,6 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include "tree.h"
 
 void header();
 void welcome();
@@ -11,9 +12,9 @@ int inputBox();
 void press_to_continue();
 void errorMessageL(int status);
 void errorMessageS(int status);
-// void ManufaturerMenu(char* id);
-// void DistributerMenu(char* id);
-// void ShopMenu(char* id);
+// void ManufaturerHome(char* id);
+void DistributorHome(Vertex* root,int* id);
+// void ShopHome(char* id);
 
 
 #endif

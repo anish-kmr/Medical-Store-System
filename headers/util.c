@@ -182,3 +182,4 @@ void verify(Vertex *v) {
         scanf("%c", ch);
     }
 }
+

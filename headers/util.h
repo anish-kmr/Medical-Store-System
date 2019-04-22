@@ -1,7 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include"tree.h"
+#include "tree.h"
 #include<stdlib.h>
 #include<string.h>
 #include<stdio.h>

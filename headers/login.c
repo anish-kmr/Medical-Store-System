@@ -21,7 +21,8 @@ int login(Level type,char* id,char*pwd){
         fgetc(db);              //To skip ~ 
         fscanf(db,"%[^\n]",dbpwd);
         fgetc(db);              //To skip \n
-        
+        // printf("id : %s ~ " ,dbid);
+        // printf("password : %s \n", dbpwd);
         if(! strcmp(dbid,id)){
             if(!strcmp(dbpwd,pwd)){
                 return SUCCESS;
