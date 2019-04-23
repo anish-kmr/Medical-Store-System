@@ -21,6 +21,7 @@ typedef enum {
 typedef struct {
     int id;
     Level lvl;
+    int child_num;
     LinkedList *ords;
     LinkedList *pending;
     LinkedList *recs;

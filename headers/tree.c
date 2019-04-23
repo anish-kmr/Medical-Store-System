@@ -12,6 +12,7 @@ Vertex *createVertex(Level l, LinkedList *ord, LinkedList *pend, LinkedList *rec
     vert->recs = rec;
     vert->store = st;
     vert->children = children;
+    vert->child_num = vert->children->length;
     if(l == MANUFACTURER) {
         vert->id == (int)MANUFACTURER;
         vert->ords->id = vert->id;
@@ -25,12 +26,13 @@ Vertex *createVertex(Level l, LinkedList *ord, LinkedList *pend, LinkedList *rec
 void addVertex(Vertex *root, Vertex *parent, Vertex *child) {
     if(root == NULL) return;
     if(root->id == parent->id) {
-        child->id = (int)parent->id * 100 + parent->children->length + 1;
+        child->id = root->id * 100 + parent->children->length + 1;
         child->ords->id = child->id;
         child->recs->id = child->id;
         child->pending->id = child->id;
         child->store->id = child->id;
         addNode(root->children, createNode(child));
+        parent->child_num++;
         return;
     }
     Node *curr = root->children->head;
