@@ -16,14 +16,17 @@
 
 int main(){
     int choice,status,id;
-    Vertex* root=createVertex(100,MANUFACTURER,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
-
+    Vertex* root=createVertex(101,MANUFACTURER,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+    Vertex* newVertex;
+    Vertex* newVertex1;
+    Vertex* newVertex2;
     int shop_id,shop_count=0;
     int dist_id,dist_count=0;
-    int man_id=100,man_count=0;
+    int man_id=101,man_count=0;
     Level type;
     Credentials info;
-    char uname[50],upwd[50];
+    char upwd[50];
+    int uid;
     CLEAR;
     header();
     welcome();
@@ -36,22 +39,34 @@ int main(){
             CLEAR;
             getSignup(&info);
             status = validate(&info);
-            if(status == SUCCESS){
-                writeCredentials(&info);
-                writeInfo(&info);
-                
+            if(status == SUCCESS){           
                 
                 if(info.type == DISTRIBUTOR){
                     id=(man_id)*100 + (++dist_count);
                     dist_id=id;
-                    addVertex(root,root,createVertex(id,DISTRIBUTOR,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList()));
                     
+                    info.id=id;
+                    newVertex = createVertex(id,DISTRIBUTOR,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+                    addVertex(root,root,newVertex);
+                    displayId(id);
+                    writeCredentials(&info);
+                    writeInfo(&info);
+                    press_to_continue();
+                    DistributorHome(root,dist_id);
                 }
                 else if(info.type == SHOP){
                     id=(dist_id)*100 + (++shop_count);
                     shop_id=id;
-                    addVertex(root,root,createVertex(id,SHOP,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList()));
 
+                    info.id=id;
+                    newVertex = createVertex(id,SHOP,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+                    addVertex(root,root,newVertex);
+                    displayId(id);
+                    writeCredentials(&info);
+                    writeInfo(&info);
+                    press_to_continue();
+                    // ShopHome(root,shop_id);
+                    
                 }
                 // else if(info.type == MANUFACTURER){
                 //     id=(man_id) + (++man_count);
@@ -64,7 +79,6 @@ int main(){
                 
                 //yaha pe login ke baad  wala page aaega
                 printf("ID : %d \n" ,id);
-                DistributorHome(root,&id);
                 break;
             }
             else{
@@ -81,14 +95,23 @@ int main(){
         //Login
         while(true){
             CLEAR;
-            getLogin(&type,uname,upwd);
-            printf("type : %d \n\n",type);
-            status=login(type,uname,upwd);
-            // printf("status %d\n",status);
+            getLogin(&type,&uid,upwd);
+            printf("pwd : %s \n\n",upwd);
+            status=login(type,uid,upwd);
+            printf("status %d\n",status);
             if(status == SUCCESS){
                 //yaha pe bhi login ke baad  wala page aaega
+                printf("hello1");
+                newVertex1 = createVertex(uid,DISTRIBUTOR,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+                addVertex(root,root,newVertex1);
+                // newVertex2 = createVertex(1010101,SHOP,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+                // addVertex(root,newVertex1,newVertex2);
+                printf("hello");
+                newVertex= findVertex(root,10101);
+                if(newVertex){
+                    printf("\n\n%d",newVertex->id);
+                }
                 
-
                 break;
             }
             else{

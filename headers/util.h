@@ -56,5 +56,5 @@ void listPending(Vertex *v);
 void listOrders(Vertex *v);
 void listShipments(Vertex *v);
 void verify(Vertex *v);
-
+Vertex* findVertex(Vertex* root,int id);
 #endif

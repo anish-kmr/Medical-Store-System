@@ -1,5 +1,4 @@
 #include"util.h"
-
 Date *createDate(int y, int m, int d) {
 	Date *date = (Date *)malloc(sizeof(Date));
 	date->year = y;
@@ -183,3 +182,32 @@ void verify(Vertex *v) {
     }
 }
 
+Vertex* findVertex(Vertex* root, int id){
+    printf("here");
+    if(root->id == id) {
+        printf("yaha");
+        return root;
+    }
+    
+    int i;
+    Vertex* curr = root;
+    LinkedList* ch = curr->children;
+    Node* children = root->children->head;
+    for(i=0;i<ch->length;i++){
+        if(((Vertex*)(children->data))->id == id){
+            return ((Vertex*)(children->data));
+        }
+        else{
+            Node* c=((Vertex*)(children->data))->children->head;
+            while(c->next != NULL){
+                if(((Vertex*)(c->data))->id == id){
+                    return ((Vertex*)(children->data));
+                }
+                c=c->next;
+            }
+        }
+        children=children->next;
+    }
+    
+    return NULL;
+}
