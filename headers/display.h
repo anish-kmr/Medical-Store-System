@@ -2,6 +2,8 @@
 #define DISPLAY_H
 
 #include "tree.h"
+#include "file_handle.h"
+#include "util.h"
 
 void header();
 void welcome();

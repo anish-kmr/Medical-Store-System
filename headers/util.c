@@ -70,6 +70,7 @@ void printReceipt(Receipt *rec) {
 }
 
 void printVertex(Vertex *v) {
+    printf("\n\nVertex ID:\t%d\n\n", v->id);
     if(v->recs->length == 0) {
         printf("No receipts.\n");
     } else {
@@ -84,6 +85,18 @@ void printVertex(Vertex *v) {
     }
     listOrders(v);
     listPending(v);
+}
+
+void printTree(Vertex *root) {
+    if(root == NULL) {
+        return;
+    }
+    printVertex(root);
+    Node *child = root->children->head;
+    while(child != NULL) {
+        printTree(child->data);
+        child = child->next;
+    }
 }
 
 void listPending(Vertex *v) {
@@ -137,6 +150,25 @@ void placeOrder(Vertex *root, Receipt *ord) {
     }
 }
 
+Crate *createCrate(Receipt *rec) {
+    Crate *c = (Crate *)malloc(sizeof(Crate));
+    c->med = rec->med;
+    c->quantity = rec->quantity;
+    return c;
+}
+
+int getQuantity(Vertex *v, Medicine *med) {
+    Node *crate = v->store->head;
+    int q = 0;
+    while(crate != NULL) {
+        if(strcmp(((Crate *)(crate->data))->med->name, med->name) == 0) {
+            q = ((Crate *)(crate->data))->quantity;
+            break;
+        }
+    }
+    return q;
+}
+
 void addCrate(Vertex *v, Crate *c) {
     Node *crate = v->store->head;
     while(crate != NULL) {
@@ -144,6 +176,7 @@ void addCrate(Vertex *v, Crate *c) {
             ((Crate *)(crate->data))->quantity += c->quantity;
             break;
         }
+        crate = crate->next;
     }
     if(crate == NULL) 
         addNode(v->store, createNode(c));
@@ -153,6 +186,7 @@ void sendShipment(Vertex *root, Receipt *rec, Crate *c) {
     if(root == NULL) return;
     if(root->id == rec->id_to) {
         addNode(root->pending, createNode(rec));
+        return;
     }
     Node *child = root->children->head;
     while(child != NULL) {
@@ -183,31 +217,17 @@ void verify(Vertex *v) {
 }
 
 Vertex* findVertex(Vertex* root, int id){
-    printf("here");
+    Vertex *v = NULL;
+    if(root == NULL) return v;
     if(root->id == id) {
-        printf("yaha");
         return root;
     }
-    
-    int i;
-    Vertex* curr = root;
-    LinkedList* ch = curr->children;
-    Node* children = root->children->head;
-    for(i=0;i<ch->length;i++){
-        if(((Vertex*)(children->data))->id == id){
-            return ((Vertex*)(children->data));
-        }
-        else{
-            Node* c=((Vertex*)(children->data))->children->head;
-            while(c->next != NULL){
-                if(((Vertex*)(c->data))->id == id){
-                    return ((Vertex*)(children->data));
-                }
-                c=c->next;
-            }
-        }
-        children=children->next;
+    Node *child = root->children->head;
+    while(child != NULL) {
+        v = findVertex(child->data, id);
+        child = child->next;
+        if(v != NULL)
+            return v;
     }
-    
     return NULL;
 }

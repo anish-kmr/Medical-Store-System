@@ -17,9 +17,6 @@ Node *createNode(void *data);
 LinkedList *createLinkedList();
 void addNode(LinkedList *ll, Node *n);
 void removeLastNode(LinkedList *ll);
-void printList(LinkedList* ll);
-//add more functions if necessary
-//function definitions in "linkedlist.c"
 
 #endif
 

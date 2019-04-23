@@ -9,14 +9,30 @@
 #include "headers/tree.h"
 #include "headers/util.h"
 #include "headers/login.h"
-// #include "headers/medicine.h"
-
 
 #define CLEAR system("clear");
 
+Vertex *root = createVertex(101, MANUFACTURER, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+Medicine combiflame = createMedicine("Combiflame", 20, createDate(4, 5, 17), createDate(5, 6, 19));
+Medicine paracetamol = createMedicine("Medicine", 15, createDate(3, 7, 18), createDate(4, 8, 19));
+Medicine brufen = createMedicine("Brufen", 17, createDate(8, 3, 18), createDate(9, 4, 19));
+addVertex(root, root, createVertex(10101, DISTRIBUTOR, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList()));
+addVertex(root, root, createVertex(10102, DISTRIBUTOR, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList()));
+addVertex(root, findVertex(root, 10101), createVertex(1010101, SHOP, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList()));
+addVertex(root, findVertex(root, 10101), createVertex(1010102, SHOP, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList()));
+addVertex(root, findVertex(root, 10101), createVertex(1010103, SHOP, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList()));
+addVertex(root, findVertex(root, 10102), createVertex(1010201, SHOP, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList()));
+addVertex(root, findVertex(root, 10102), createVertex(1010202, SHOP, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList()));
+addVertex(root, findVertex(root, 10102), createVertex(1010203, SHOP, createLinkedList(), createLinkedList(), createLinekdList(), createLinkedList(), createLinkedList()));
+
+Receipt *r1 = createReceipt(1, combiflame, createDate(14, 12, 18), 1000, createContact("Shreyansh", 9838177556, "chouhan.shreyansh630@gmail.com", "adress"), 101, 10101);
+Receipt *r2 = createReceipt(2, paracetamol, createDate(13, 11, 18), 1500, createContact("Anish", 8723482947, "email", "adress"));
+
+sendShipment(root, r1, createCrate(r1->name, r1->quantity));
+sendShipment(root, r2, createCrate(r2->name, r2->quantity));
+
 int main(){
     int choice,status,id;
-    Vertex* root=createVertex(101,MANUFACTURER,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
     Vertex* newVertex;
     Vertex* newVertex1;
     Vertex* newVertex2;
