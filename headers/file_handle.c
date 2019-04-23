@@ -19,6 +19,7 @@ void writeInfo(Credentials* info){
     else if(info->type == SHOP) db=fopen("../files/info/Shop.txt","a");
 
     fprintf(db,"%d~%s~%ld~%s~%s\n",info->id,info->contactDetails.name,info->contactDetails.phone,info->contactDetails.email,info->contactDetails.address);
+    // printf("wrote it");
 }
 
 void writeOrders(LinkedList *orders) {}
@@ -84,3 +85,31 @@ void writeContact(FILE* fp,Contact_Details* cd){
     fprintf(fp,"Address:\t%s\n", cd->address);
 }
 
+void details_from_id(Contact_Details* cd,Level type,int id){
+    FILE *db;
+    int dbid;
+    if(type == MANUFACTURER) db=fopen("../files/info/Manufacturer.txt","r");
+    else if(type == DISTRIBUTOR) db=fopen("../files/info/Distributor.txt","r");
+    else if(type == SHOP) db=fopen("../files/info/Shop.txt","r");
+
+    while( !feof(db)){
+        fscanf(db,"%d",&dbid );
+        fgetc(db);
+        
+        // printf("id : %d ~ " ,dbid);
+        // printf("password : %s \n", dbpwd);
+        if(dbid == id){
+            // printf("id is %d",id);
+            fscanf(db,"%[^~]",cd->name);
+            fgetc(db);
+            fscanf(db,"%ld",&cd->phone);
+            fgetc(db);
+            fscanf(db,"%[^~]",cd->email);
+            fgetc(db);
+            fscanf(db,"%[^\n]",cd->address);
+            fgetc(db);
+            
+            // printf("name: %s  phone :%ld email:%s  address : %s\n",cd->name,cd->phone,cd->email,cd->address);
+        }
+    }  
+}

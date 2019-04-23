@@ -12,4 +12,6 @@ void writeDate(FILE* fp,Date* d);
 void writeMedicine(FILE* fp,Medicine* med);
 void writeContact(FILE* fp,Contact_Details* cd);
 
+void details_from_id(Contact_Details* cd,Level type,int id);
+
 #endif

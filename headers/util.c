@@ -16,16 +16,25 @@ Medicine *createMedicine(char n[30], float p, Date *m, Date *e) {
 }
 
 void printMedicine(Medicine *med) {
-    printf("Name:\t%s\n", med->name);
-    printf("Prince:\t %f\n", med->price);
-    printf("Manufactured: ");
+    printf("\t| N A M E :   %s                                                       \n",med->name);
+    printf("\t|_______________________________________________________________________________|\n");
+    printf("\t| P R I C E :   %f                                                       \n",med->price);
+    printf("\t|_______________________________________________________________________________|\n");
+
+    printf("\t|  M F G  .  D A T E    : ");
     printDate(med->mfg);
-    printf("Expiry: ");
+    printf("                                          |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+
+    printf("\t|  E X P  .  D A T E    : ");
     printDate(med->exp);
+    printf("                                          |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+
 }
 
 void printDate(Date *d) {
-	printf("%2d/%2d/%4d\n", d->day, d->month, d->year);
+	printf("%2d/%2d/%4d",d->day, d->month, d->year);
 }
 
 Contact_Details *createContact(char n[30], long int pno, char e[50], char a[100]) {
@@ -38,10 +47,19 @@ Contact_Details *createContact(char n[30], long int pno, char e[50], char a[100]
 }
 
 void printContact(Contact_Details *cd) {
-    printf("Name:\t%s\n", cd->name);
-    printf("Phone:\t%ld\n", cd->phone);
-    printf("Email:\t%s\n", cd->email);
-    printf("Address:\t%s\n", cd->address);
+    // printf("Name:\t%s\n", cd->name);
+    printf("\t|  N A M E :            %s                                               \n",cd->name);
+    printf("\t|_______________________________________________________________________________|\n");
+    
+    printf("\t|  P H O N E  :         %ld                                              |\n",cd->phone);
+    printf("\t|_______________________________________________________________________________|\n");
+    
+    printf("\t| E - M A I L :         %s                              \n",cd->email);
+    printf("\t|_______________________________________________________________________________|\n");
+
+    printf("\t| A D D R E S S :       %s                              \n",cd->address);
+    printf("\t|_______________________________________________________________________________|\n");
+    
 }
 
 Receipt *createReceipt(int i, Medicine *m, Date *d, int q,  Contact_Details *cd, int f, int t) {
@@ -57,16 +75,36 @@ Receipt *createReceipt(int i, Medicine *m, Date *d, int q,  Contact_Details *cd,
 }
 
 void printReceipt(Receipt *rec) {
-    printf("Receipt:\n=====================================================\n");
-    printf("Id:\t %d\n", rec->id);
-    printf("Date:\t");
-    printDate(rec->date);
-    printf("Medicine Details:\n--------------------------------------------\n");
+    printf("\t|                                                                               |\n");
+    printf("\t|                               R E C E I P T                                   |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+
+    printf("\t|  I D :             %d                                                        |\n",rec->id);
+    printf("\t|_______________________________________________________________________________|\n");
+    
+    printf("\t|  D A T E :    ");
+    printDate(rec->date);     
+                       printf("                                                    |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+    
+    printf("\t|                     M E D I C I N E   D E T A I L S                           |\n");
+    printf("\t|_______________________________________________________________________________|\n");
     printMedicine(rec->med);
-    printf("Quantity:\t %d\n", rec->quantity);
-    printf("Buyer Details:\n-----------------------------------------------\n");
+
+
+    printf("\t|  Q U A N T I T Y :             %d                                           |\n",rec->quantity);
+    printf("\t|_______________________________________________________________________________|\n");
+
+
+    printf("\t|                     B U Y E R   D E T A I L S                                 |\n");
+    printf("\t|_______________________________________________________________________________|\n");
     printContact(rec->cd);
-    printf("From ID: %d \t To ID: %d\n", rec->id_from, rec->id_to);
+    printf("\t| F R O M  :  %d                          T O : %d                                |\n",rec->id_from,rec->id_to);
+    printf("\t|_______________________________________________________________________________|\n");
+    printf("\t                                                                                 \n");
+    printf("\t                                                                                 \n");
+
+
 }
 
 void printVertex(Vertex *v) {
@@ -141,6 +179,7 @@ void listShipments(Vertex *v) {
 }
 
 void placeOrder(Vertex *root, Receipt *ord) {
+    
     if(root == NULL) return;
     if(root->id == ord->id_to) {
         addNode(root->ords, createNode(ord));
@@ -203,19 +242,24 @@ void verify(Vertex *v) {
     char ch = 'y';
     Node *curr = v->pending->head;
     printf("Starting verification of pending receipts, when asked, press n to quit.\n");
-    while(curr != NULL && ch != 'n') {
+    while(v->pending->length !=0 && ch != 'n') {
         printf("Verifying for shipment of %s on date ", ((Receipt *)(curr->data))->med->name);
         printDate(((Receipt *)(curr->data))->date);
         printf("What quantity of the above did you receive?\n");
         scanf("%d", &n);
+        printf("yous entered %d\n",n);
         if(n == ((Receipt *)(curr->data))->quantity) {
+           
             addNode(v->recs, curr);
             removeLastNode(v->pending);
         }
         else
             printf("There has been some problem, please signify the concerned authorities,\n");
+
         printf("Continue verification?");
-        scanf("%c", ch);
+        // printf("kuch ni %d\n",n);
+        getchar();
+        scanf("%c", &ch);
     }
 }
 

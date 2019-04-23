@@ -18,6 +18,8 @@ Node *createNode(void *data);
 LinkedList *createLinkedList();
 void addNode(LinkedList *ll, Node *n);
 void removeLastNode(LinkedList *ll);
+void printReceiptList(LinkedList* ll);
+void printMedicineList(LinkedList* ll);
 
 #endif
 
