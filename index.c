@@ -13,24 +13,61 @@
 #define CLEAR system("clear");
 
 int main(){
-    Vertex *root = createVertex(101, MANUFACTURER, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+    Vertex *root = createVertex(MANUFACTURER, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+    // displayId(root->id);
+    // press_to_continue();
+
+    // Vertex *dist1 = createVertex(DISTRIBUTOR, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+    // addVertex(root,root,dist1);
+    // displayId(dist1->id);
+    // press_to_continue();
+    // Vertex *dist2 = createVertex(DISTRIBUTOR, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+    // addVertex(root,root,dist2);
+    // displayId(dist2->id);
+    // press_to_continue();
+    
+    // Vertex *shop1 = createVertex(SHOP, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+    // addVertex(root,dist1,shop1);
+    // displayId(shop1->id);
+    // press_to_continue();
+    // Vertex *shop2 = createVertex(SHOP, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+    // addVertex(root,dist1,shop2);
+    // displayId(shop2->id);
+    // press_to_continue();
+    
+
+//     Vertex *root2 = createVertex(MANUFACTURER, createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList(), createLinkedList());
+//  displayId(root->id);
+
+//     press_to_continue();
+Date* d1=createDate(12,10,2013);
+Date* mfg=createDate(21,10,2017);
+Date* exp=createDate(10,10,2019);
+Contact_Details* cd = createContact("Ramlal",9821455745,"ramlal@gmail.com","Street 7 colony 21 Sector 5 Preetampur");
+Medicine* pmol = createMedicine("Paracetamol",10.23,mfg,exp);
+Medicine* cflam = createMedicine("Combiflam",55.42,mfg,exp);
+Medicine* pkill = createMedicine("PainKiller",30.00,mfg,exp);
+Receipt *r1 = createReceipt(101001,pmol,d1,1000,cd,0,1);
+Receipt *r2 = createReceipt(10092,cflam,d1,1000,cd,0,1);
+Receipt *r3 = createReceipt(104,pkill,d1,1000,cd,0,1);
+Node* n = createNode(pmol);
+Node* n1 = createNode(cflam);
+Node* n2 = createNode(pkill);
+Node* n3 = createNode(r2);
     int choice,status,id;
     Vertex* newVertex;
-    Vertex* newVertex1;
-    Vertex* newVertex2;
-    int shop_id,shop_count=0;
-    int dist_id,dist_count=0;
-    int man_id=101,man_count=0;
+   
     Level type;
     Credentials info;
     char upwd[50];
     int uid;
+    
+do{
     CLEAR;
     header();
     welcome();
     mainMenu();
     choice = inputBox();
-
     if(choice == 1){
         //Signup
         while(true){
@@ -39,45 +76,59 @@ int main(){
             status = validate(&info);
             if(status == SUCCESS){           
                 
-                if(info.type == DISTRIBUTOR){
-                    id=(man_id)*100 + (++dist_count);
-                    dist_id=id;
-                    
-                    info.id=id;
-                    newVertex = createVertex(id,DISTRIBUTOR,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
-                    addVertex(root,root,newVertex);
-                    displayId(id);
+                if(info.type == MANUFACTURER){
+                    root=createVertex(MANUFACTURER,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+                    displayId(root->id);
+                    info.id=newVertex->id;
                     writeCredentials(&info);
                     writeInfo(&info);
                     press_to_continue();
-                    DistributorHome(root,dist_id);
+                    CLEAR;
+                    Home(root,MANUFACTURER,root);
+                    break;
+                }
+                else if(info.type == DISTRIBUTOR){
+                    newVertex = createVertex(DISTRIBUTOR,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+                    addVertex(root,root,newVertex);
+                    // Vertex* parent = findVertex(root,(newVertex->id)/100) ;
+                    
+                    displayId((newVertex->id));
+                    info.id=newVertex->id;
+                    writeCredentials(&info);
+                    writeInfo(&info);
+                    press_to_continue();
+
+                    addNode(newVertex->store,n);
+                    addNode(newVertex->store,n1);
+
+                    addNode(newVertex->pending,n3);
+                    
+
+                    addNode(newVertex->ords,n3);
+
+                    CLEAR;
+                    Home(root,DISTRIBUTOR,newVertex);
                 }
                 else if(info.type == SHOP){
-                    id=(dist_id)*100 + (++shop_count);
-                    shop_id=id;
-
-                    info.id=id;
-                    newVertex = createVertex(id,SHOP,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
-                    addVertex(root,root,newVertex);
-                    displayId(id);
+                    newVertex = createVertex(SHOP,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
+                    Vertex* parent = findVertex(root,(newVertex->id)/100) ;
+                    addVertex(root,parent,newVertex);
+                    displayId((newVertex->id));
+                    info.id=newVertex->id;
                     writeCredentials(&info);
                     writeInfo(&info);
                     press_to_continue();
-                    // ShopHome(root,shop_id);
                     
+                    CLEAR;
+                    Home(root,SHOP,newVertex);
+
                 }
-                // else if(info.type == MANUFACTURER){
-                //     id=(man_id) + (++man_count);
-                //     man_id=id;
-                //     root=createVertex(id,MANUFACTURER,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
-                    
-                // }
+                
                 
                 // CLEAR;
                 
                 //yaha pe login ke baad  wala page aaega
-                printVertex(root);
-                printf("ID : %d \n" ,id);
+                // printVertex(root);
                 break;
             }
             else{
@@ -95,23 +146,9 @@ int main(){
         while(true){
             CLEAR;
             getLogin(&type,&uid,upwd);
-            printf("pwd : %s \n\n",upwd);
             status=login(type,uid,upwd);
-            printf("status %d\n",status);
             if(status == SUCCESS){
-                //yaha pe bhi login ke baad  wala page aaega
-                //printf("hello1");
-                
-                newVertex1 = createVertex(uid,DISTRIBUTOR,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
-                addVertex(root,root,newVertex1);
-                // newVertex2 = createVertex(1010101,SHOP,createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList(),createLinkedList());
-                // addVertex(root,newVertex1,newVertex2);
-                printf("hello");
-                newVertex= findVertex(root,10101);
-                if(newVertex){
-                    printf("\n\n%d",newVertex->id);
-                }
-                
+                Home(root,MANUFACTURER,findVertex(root,id));
                 break;
             }
             else{
@@ -121,6 +158,7 @@ int main(){
 
         }
     }
+}while(1);
 
 
     return 0;

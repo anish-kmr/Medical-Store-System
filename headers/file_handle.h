@@ -22,5 +22,6 @@ void writeStore(LinkedList *store);
 LinkedList *readStore(int id);
 void update(Vertex *root);
 Vertex *refresh();
+void details_from_id(Contact_Details* cd,Level type,int id);
 
 #endif

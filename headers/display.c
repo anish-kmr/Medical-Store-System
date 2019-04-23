@@ -77,27 +77,105 @@ void errorMessageS(int status){
     }
 }
 
-void DistributorHome(Vertex* root,int id){
-    int i;
-    printf("\n\nINside home\n\n");
-    LinkedList* children = root->children;
-    Node* current = children->head;
-    printf("\n\n %d",children->length);
-printf("\n\nid : %d");
-    for(i=0;i<children->length;i++){
-        printf("\n\n %d",((Vertex*)(current->data))->id);
-        if(((Vertex*)(current->data))->id == id){
-            printVertex(current->data);
-            //writeVertex(current->data); 
-        }
-        current = current->next;
-    }    
-    
+void PendingTitle(){
+    printf("\t|           Here are Your Orders Pending For Verification.                      |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+}
+void StoreTitle(){
+    printf("\t|                              S T O R E                                        |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+}
+void OrderTitle(){
+    printf("\t|                              O R D E R S                                      |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+}
+void Home(Vertex* root,Level type,Vertex* this){
+    int type_choice;
+    Medicine med ;
+    med.mfg=createDate(10,12,2015);
+    med.exp=createDate(16,11,2020);
+    med.price=55.36;
+    Receipt r;
+    // if(type == MANUFACTURER){
+    //     //MANUFACTURER HOME
+    // }
+    // else if(type == DISTRIBUTOR){
+        //DISTRIBUTOR HOME
+        header();
+        StoreTitle();
+        printMedicineList(this->store);
+            
+            
+            do{
+                 printf("\t_______________________________________________________________________________\n");
+                printf("\t|    O P T I O N S :                                                            |\n");
+                printf("\t|_______________________________________________________________________________|\n");
+                printf("\t|                                                                               |\n");
+                printf("\t|  1.Purchase Medicines                 2.View Past Purchases                   |\n");
+                printf("\t|                                                                               |\n");
+                printf("\t|  3.Verify Pending Orders              4.Logout                                |\n");
+                type_choice=inputBox();
+
+                switch (type_choice) {
+                    case 1:
+                        /* Place orders  */
+                        printf("\t|    P U R C H A S E :                                                          |\n");
+                        printf("\t|_______________________________________________________________________________|\n");
+                        printf("\t| Medicine Name : ");
+                        getchar();
+                        scanf("%[^\n]",med.name);
+
+                        r.med=&med;
+                        printf("\t| Quantity : ");
+                        scanf("%d",&r.quantity);
+                        details_from_id(&r.cd,DISTRIBUTOR, this->id);
+                        placeOrder(root,&r);
+                        printf("\t|                                                                               |\n");
+                        printf("\t|    Order Placed !                                                             |\n");
+                        printf("\t|_______________________________________________________________________________|\n");
+                        
+                        
+                        break;
+                
+                    case 2:
+                        /* Show Receipts  */
+                        OrderTitle();
+                        printReceiptList(this->ords);
+
+                        break;
+                
+                    case 3:
+                        /* Verify  */
+                        // printf("length %d",this->pending->length);
+                        // printReceiptList(this->pending);
+                        verify(this);
+                        break;
+                
+                    case 4:
+                        /* Logout  */
+                        printf("\n");
+                        return;
+
+                        break;
+                
+                    default:
+                        break;
+                }
+
+            }while(type_choice!=4);
+            
+        
+        
+    // }
+    // else if(type == SHOP){
+    //     //SHOP HOME
+    // }
+
 }
 
 void displayId(int id){
     printf("\t|                                                                               |\n");
-    printf("\t|                   CONGRATULATIONS! Your ID is  %d.                            |\n",id);
+    printf("\t|                   CONGRATULATIONS! Your ID is  %d.                            \n",id);
     printf("\t|                 Remember this ID for future reference !                       |\n");
     printf("\t|_______________________________________________________________________________|\n");
 }

@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "linkedlist.h"
+#include "util.h"
+
+
 
 Node* createNode(void *data) {
     Node *newnode = (Node*)malloc(sizeof(Node));
@@ -53,11 +56,30 @@ void removeLastNode(LinkedList *ll) {
 
 }
 
-void printList(LinkedList* ll) {
+void printReceiptList(LinkedList* ll) {
     Node* current_node = ll->head;
     while(current_node != NULL) {
+        // printf("%d ~",((Receipt*)(current_node->data))->id);
+        printReceipt(current_node->data);
+        printf("\t _______________________________________________________________________________\n");
         current_node=current_node->next;
     }
+    printf("\t| NO MORE TO SHOW                                                               |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+
+
+}
+void printMedicineList(LinkedList* ll) {
+    Node* current_node = ll->head;
+    while(current_node != NULL) {
+        // printf("%d ~",((Receipt*)(current_node->data))->id);
+        printMedicine(current_node->data);
+        printf("\t _______________________________________________________________________________\n");
+
+        current_node=current_node->next;
+    }
+    printf("\t| NO MORE TO SHOW                                                               |\n");
+    printf("\t|_______________________________________________________________________________|\n");
 
 }
 
