@@ -7,6 +7,7 @@ struct node{
 };
 
 typedef struct list{
+    int id;
     int length;
     struct node *head;
 } LinkedList;

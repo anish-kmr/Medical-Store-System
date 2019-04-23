@@ -71,6 +71,7 @@ void printReceipt(Receipt *rec) {
 
 void printVertex(Vertex *v) {
     printf("\n\nVertex ID:\t%d\n\n", v->id);
+    printf("%d", v->recs->id);
     if(v->recs->length == 0) {
         printf("No receipts.\n");
     } else {
@@ -100,6 +101,7 @@ void printTree(Vertex *root) {
 }
 
 void listPending(Vertex *v) {
+    printf("%d", v->pending->id);
     if(v->pending->length == 0) {
         printf("No orders to verify.\n");
         return;
@@ -112,6 +114,7 @@ void listPending(Vertex *v) {
 }
 
 void listOrders(Vertex *v) {
+    printf("%d", v->ords->id);
     if(v->ords->length == 0) {
         printf("No Orders.\n");
     } else {
@@ -216,18 +219,3 @@ void verify(Vertex *v) {
     }
 }
 
-Vertex* findVertex(Vertex* root, int id){
-    Vertex *v = NULL;
-    if(root == NULL) return v;
-    if(root->id == id) {
-        return root;
-    }
-    Node *child = root->children->head;
-    while(child != NULL) {
-        v = findVertex(child->data, id);
-        child = child->next;
-        if(v != NULL)
-            return v;
-    }
-    return NULL;
-}

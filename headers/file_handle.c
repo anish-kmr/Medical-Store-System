@@ -21,9 +21,17 @@ void writeInfo(Credentials* info){
     fprintf(db,"%d~%s~%ld~%s~%s\n",info->id,info->contactDetails.name,info->contactDetails.phone,info->contactDetails.email,info->contactDetails.address);
 }
 
+void writeOrders(LinkedList *orders) {}
+
+void writeReceipts(LinkedList *receipts) {}
+
+void writeStore(LinkedList *store) {}
+
+void writePending(LinkedList *pending) {}
+
 void writeVertex(Vertex* this){
     FILE *db;
-    db=fopen("../files/tree/tree.txt","a");
+    db=fopen("../files/tree/tree.txt","ab");
     fprintf(db,"%d\n%d\n",this->id,this->lvl);
     writeList(db,this->ords);
     writeList(db,this->pending);
@@ -75,3 +83,4 @@ void writeContact(FILE* fp,Contact_Details* cd){
     fprintf(fp,"Email:\t%s\n", cd->email);
     fprintf(fp,"Address:\t%s\n", cd->address);
 }
+

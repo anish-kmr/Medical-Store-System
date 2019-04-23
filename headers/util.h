@@ -111,5 +111,4 @@ void listShipments(Vertex *v);
 // If the given quantity doesn't match the transaction is considered failed and 
 // it is left upon the user to inquire about the case. Store is not updated.
 void verify(Vertex *v);
-Vertex* findVertex(Vertex* root,int id);
 #endif

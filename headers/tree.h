@@ -8,7 +8,7 @@ typedef enum {
     MANUFACTURER,       // highest level
     STATE,              // below manufacturer
     DISTRIBUTOR,        // distributors under a given state
-    SHOP                // shops under a given distributor
+    SHOP               // shops under a given distributor
 } Level;
 
 // A single vertex of a tree.
@@ -31,9 +31,11 @@ typedef struct {
 // createVertex creates and returns an object of structure Vertex. Takes
 // id, level, and LinkedList of the following:
 // orders, pending, receipts, store and children as parameters.
-Vertex *createVertex(int id, Level lvl, LinkedList *ords, LinkedList *pending, LinkedList *recs, LinkedList *store, LinkedList *children);
+Vertex *createVertex(Level lvl, LinkedList *ords, LinkedList *pending, LinkedList *recs, LinkedList *store, LinkedList *children);
 // addVertex adds a vertex to a given parent in the tree. Takes the root 
 // of the tree, parent vertex and the vertex to add as the parameters.
 void addVertex(Vertex *root, Vertex *parent, Vertex *v);
+
+Vertex *findVertex(Vertex *root, int id);
 
 #endif
