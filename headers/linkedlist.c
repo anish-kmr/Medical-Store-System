@@ -19,6 +19,7 @@ LinkedList *createLinkedList() {
 void addNode(LinkedList *ll, Node *n) {
     if (ll->head == NULL) {
         ll->head = n;
+        ll->length = 1;
         return;
     }
 

@@ -1,3 +1,4 @@
+#include "tree.h"
 #include "util.h"
 #include <stdio.h>
 #include <string.h>

@@ -71,6 +71,7 @@ void printReceipt(Receipt *rec) {
 }
 
 void printVertex(Vertex *v) {
+    printf("\n\nVertex ID:\t%d\n\n", v->id);
     if(v->recs->length == 0) {
         printf("No receipts.\n");
     } else {
@@ -85,6 +86,18 @@ void printVertex(Vertex *v) {
     }
     listOrders(v);
     listPending(v);
+}
+
+void printTree(Vertex *root) {
+    if(root == NULL) {
+        return;
+    }
+    printVertex(root);
+    Node *child = root->children->head;
+    while(child != NULL) {
+        printTree(child->data);
+        child = child->next;
+    }
 }
 
 void listPending(Vertex *v) {
@@ -138,6 +151,25 @@ void placeOrder(Vertex *root, Receipt *ord) {
     }
 }
 
+Crate *createCrate(Receipt *rec) {
+    Crate *c = (Crate *)malloc(sizeof(Crate));
+    c->med = rec->med;
+    c->quantity = rec->quantity;
+    return c;
+}
+
+int getQuantity(Vertex *v, Medicine *med) {
+    Node *crate = v->store->head;
+    int q = 0;
+    while(crate != NULL) {
+        if(strcmp(((Crate *)(crate->data))->med->name, med->name) == 0) {
+            q = ((Crate *)(crate->data))->quantity;
+            break;
+        }
+    }
+    return q;
+}
+
 void addCrate(Vertex *v, Crate *c) {
     Node *crate = v->store->head;
     while(crate != NULL) {
@@ -145,6 +177,7 @@ void addCrate(Vertex *v, Crate *c) {
             ((Crate *)(crate->data))->quantity += c->quantity;
             break;
         }
+        crate = crate->next;
     }
     if(crate == NULL) 
         addNode(v->store, createNode(c));
@@ -153,7 +186,11 @@ void addCrate(Vertex *v, Crate *c) {
 void sendShipment(Vertex *root, Receipt *rec, Crate *c) {
     if(root == NULL) return;
     if(root->id == rec->id_to) {
-        addNode(root->pending, createNode(rec));
+        if(root->lvl == MANUFACTURER)
+            addNode(root->pending, createNode(rec));
+        else {
+            if()
+        }
     }
     Node *child = root->children->head;
     while(child != NULL) {

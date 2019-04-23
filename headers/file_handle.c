@@ -9,7 +9,6 @@ void writeCredentials(Credentials* info){
     else if(info->type == SHOP) db=fopen("../files/credentials/Shop.txt","a");
 
     fprintf(db,"%s~%s\n",info->contactDetails.name,info->password);
-    
 }
 
 void writeInfo(Credentials* info){
@@ -20,5 +19,4 @@ void writeInfo(Credentials* info){
     else if(info->type == SHOP) db=fopen("../files/info/Shop.txt","a");
 
     fprintf(db,"%s~%ld~%s~%s\n",info->contactDetails.name,info->contactDetails.phone,info->contactDetails.email,info->contactDetails.address);
-    
 }
