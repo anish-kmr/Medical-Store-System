@@ -11,6 +11,7 @@
 
 typedef struct {
 	Level type;
+	int id;
 	Contact_Details contactDetails;
 	char password[20];
 	char confirmPassword[20];
@@ -18,7 +19,7 @@ typedef struct {
 } Credentials;
 
 void getSignup(Credentials*);
-void getLogin(Level* type ,char *uname,char*pwd);
+void getLogin(Level* type,int *id,char*pwd);
 int validate(Credentials*);
 
 #endif

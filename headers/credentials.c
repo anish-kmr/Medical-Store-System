@@ -72,7 +72,7 @@ void getSignup(Credentials* info){
 
 }
 
-void getLogin(Level* type , char *uname,char* pwd){
+void getLogin(Level* type ,int* id,char* pwd){
     header();
     loginMenu();
     int type_choice;
@@ -84,9 +84,11 @@ void getLogin(Level* type , char *uname,char* pwd){
         printf("\t|  1.Manufacturer              2.Distributor                3.Shop              |\n");
         type_choice=inputBox();
     }while(type_choice!=1 && type_choice!=2 && type_choice!=3);
+    *type = type_choice;
+
     printf("\t|_______________________________________________________________________________|\n");
-    printf("\t|  USER-NAME  : ");
-    scanf(" %[^\n]%*c", uname);
+    printf("\t|  ID  : ");
+    scanf("%d", id);
 
 
     printf("\t|_______________________________________________________________________________|\n");

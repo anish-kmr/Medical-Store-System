@@ -13,7 +13,7 @@ int main() {
     Contact_Details *Cd = createContact("Shreyansh", 9838177556, "chouhan.shreyansh630@gmail.com", "address");
     Receipt *rec = createReceipt(0, m, d, 10, Cd, 0, 1);
     Receipt *rec2= createReceipt(0, m, d, 12, Cd, 0, 1);
-    
+ 
     LinkedList *recs = createLinkedList();
     addNode(recs, createNode(rec));
     addNode(recs, createNode(rec2));
@@ -28,16 +28,9 @@ int main() {
     addNode(children, createNode(v2));
     addNode(children, createNode(v3));
 
-    Receipt *ord = createReceipt(1, m, d, 13, Cd, 1, 0);
-
     Vertex *v = createVertex(0, MANUFACTURER, createLinkedList(), createLinkedList(), recs, createLinkedList(), children);
-    placeOrder(v, ord);
-    Crate *crate = createCrate(ord);
-    Receipt *shipment = createReceipt(2, ord->med, ord->date, ord->quantity, ord->cd, ord->id_to, ord->id_from);
 
-    sendShipment(v, shipment, crate);
-
-    printTree(v);
-
+    Vertex *vf = findVertex(v, 1);
+    printVertex(vf);
 	return 0;
 }

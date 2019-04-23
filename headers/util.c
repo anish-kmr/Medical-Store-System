@@ -1,5 +1,4 @@
 #include"util.h"
-
 Date *createDate(int y, int m, int d) {
 	Date *date = (Date *)malloc(sizeof(Date));
 	date->year = y;
@@ -186,11 +185,8 @@ void addCrate(Vertex *v, Crate *c) {
 void sendShipment(Vertex *root, Receipt *rec, Crate *c) {
     if(root == NULL) return;
     if(root->id == rec->id_to) {
-        if(root->lvl == MANUFACTURER)
-            addNode(root->pending, createNode(rec));
-        else {
-            if()
-        }
+        addNode(root->pending, createNode(rec));
+        return;
     }
     Node *child = root->children->head;
     while(child != NULL) {
@@ -218,4 +214,20 @@ void verify(Vertex *v) {
         printf("Continue verification?");
         scanf("%c", ch);
     }
+}
+
+Vertex* findVertex(Vertex* root, int id){
+    Vertex *v = NULL;
+    if(root == NULL) return v;
+    if(root->id == id) {
+        return root;
+    }
+    Node *child = root->children->head;
+    while(child != NULL) {
+        v = findVertex(child->data, id);
+        child = child->next;
+        if(v != NULL)
+            return v;
+    }
+    return NULL;
 }

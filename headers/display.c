@@ -76,6 +76,31 @@ void errorMessageS(int status){
         
     }
 }
+
+void DistributorHome(Vertex* root,int id){
+    int i;
+    printf("\n\nINside home\n\n");
+    LinkedList* children = root->children;
+    Node* current = children->head;
+    printf("\n\n %d",children->length);
+printf("\n\nid : %d");
+    for(i=0;i<children->length;i++){
+        printf("\n\n %d",((Vertex*)(current->data))->id);
+        if(((Vertex*)(current->data))->id == id){
+            printVertex(current->data);
+            writeVertex(current->data); 
+        }
+        current = current->next;
+    }    
+    
+}
+
+void displayId(int id){
+    printf("\t|                                                                               |\n");
+    printf("\t|                   CONGRATULATIONS! Your ID is  %d.                            |\n",id);
+    printf("\t|                 Remember this ID for future reference !                       |\n");
+    printf("\t|_______________________________________________________________________________|\n");
+}
 // int main(){
 //     header();
 //     welcome();

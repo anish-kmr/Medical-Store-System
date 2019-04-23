@@ -10,6 +10,6 @@
 #define NOT_FOUND 0;
 
 
-int login(Level type,char* id,char*pwd);
+int login(Level type,int id,char*pwd);
 
 #endif

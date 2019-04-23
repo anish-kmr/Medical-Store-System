@@ -8,22 +8,23 @@
 #define NOT_FOUND 0;
 
 
-int login(Level type,char* id,char*pwd){
+int login(Level type,int id,char*pwd){
     FILE *db;
-    
-    char *token,line[100],dbid[50],dbpwd[50];
+    int dbid;
+    char *token,line[100],dbpwd[50];
     
     if(type == MANUFACTURER) db = fopen("../files/credentials/Manufacturer.txt","r"); 
     else if(type == DISTRIBUTOR) db = fopen("../files/credentials/Distributor.txt","r"); 
     else if(type == SHOP) db = fopen("../files/credentials/Shop.txt","r"); 
 
     while( !feof(db)){
-        fscanf(db,"%[^~]",dbid );
+        fscanf(db,"%d",&dbid );
         fgetc(db);              //To skip ~ 
         fscanf(db,"%[^\n]",dbpwd);
         fgetc(db);              //To skip \n
-        
-        if(! strcmp(dbid,id)){
+        // printf("id : %d ~ " ,dbid);
+        // printf("password : %s \n", dbpwd);
+        if(dbid == id){
             if(!strcmp(dbpwd,pwd)){
                 return SUCCESS;
             }
