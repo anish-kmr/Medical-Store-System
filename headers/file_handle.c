@@ -1,6 +1,7 @@
 #include "file_handle.h"
 #include <stdio.h>
-// #include <stdlib.h>
+#include <stdlib.h>
+
 void writeCredentials(Credentials* info){
     FILE *db;
     
@@ -21,66 +22,207 @@ void writeInfo(Credentials* info){
     fprintf(db,"%d~%s~%ld~%s~%s\n",info->id,info->contactDetails.name,info->contactDetails.phone,info->contactDetails.email,info->contactDetails.address);
 }
 
-void writeOrders(LinkedList *orders) {}
-
-void writeReceipts(LinkedList *receipts) {}
-
-void writeStore(LinkedList *store) {}
-
-void writePending(LinkedList *pending) {}
-
-void writeVertex(Vertex* this){
-    FILE *db;
-    db=fopen("../files/tree/tree.txt","ab");
-    fprintf(db,"%d\n%d\n",this->id,this->lvl);
-    writeList(db,this->ords);
-    writeList(db,this->pending);
-    writeList(db,this->recs);
-    
-}
-
-void writeList(FILE* fp,LinkedList* this){
-    if(this->length == 0) {
-        fprintf(fp,"No orders to verify.\n");
-        return;
-    }
-    Node *curr = this->head;
+void writeOrders(LinkedList *orders) {
+    if(orders->length == 0) return;
+    FILE *fp = fopen("../files/orders.bin", "ab");
+    Node *curr = orders->head;
+    fwrite(orders, sizeof(LinkedList), 1,  fp);
     while(curr != NULL) {
-        writeReceipt(fp,curr->data);
+        fwrite(((Receipt *)(curr->data)), sizeof(Receipt), 1, fp);
         curr = curr->next;
     }
+    fclose(fp);
 }
 
-void writeReceipt(FILE* fp,Receipt* rec){
-    fprintf(fp,"Receipt:\n=====================================================\n");
-    fprintf(fp,"Id:\t %d\n", rec->id);
-    fprintf(fp,"Date:\t");
-    writeDate(fp,rec->date);
-    fprintf(fp,"Medicine Details:\n--------------------------------------------\n");
-    writeMedicine(fp,rec->med);
-    fprintf(fp,"Quantity:\t %d\n", rec->quantity);
-    fprintf(fp,"Buyer Details:\n-----------------------------------------------\n");
-    writeContact(fp,rec->cd);
-    fprintf(fp,"From ID: %d \t To ID: %d\n", rec->id_from, rec->id_to);
+LinkedList *readOrders(int id) {
+    FILE *fp;
+    fp = fopen("../files/orders.bin", "rb");
+    LinkedList *temp = createLinkedList();
+    fread(temp, sizeof(LinkedList), 1, fp);
+    while(temp->id != id && !feof(fp)) {
+        fseek(fp, sizeof(Receipt) * temp->length, SEEK_CUR);
+        fread(temp, sizeof(LinkedList), 1, fp);
+    }
+    if(temp->id != id) {
+        fclose(fp);
+        return createLinkedList();
+    }
+    int l = temp->length;
+    Receipt *order =  (Receipt *)malloc(sizeof(Receipt) * l);
+    for(int i = 0; i < l; i++) {
+        fread(&order[i], sizeof(Receipt), 1, fp);
+        addNode(temp, createNode(&order[i]));
+    }
+    fclose(fp);
+    return temp;
 }
 
-void writeDate(FILE* fp,Date* d){
-    fprintf(fp,"%2d/%2d/%4d\n", d->day, d->month, d->year);
+void writeReceipts(LinkedList *receipts) {
+    if(receipts->length == 0) return;
+    FILE *fp = fopen("../files/receipts.bin", "ab");
+    Node *curr = receipts->head;
+    fwrite(receipts, sizeof(LinkedList), 1, fp);
+    while(curr != NULL) {
+        fwrite(((Receipt *)(curr->data)), sizeof(Receipt), 1, fp);
+        curr = curr->next;
+    }
+    fclose(fp);
 }
 
-void writeMedicine(FILE* fp,Medicine* med){
-    fprintf(fp,"Name:\t%s\n", med->name);
-    fprintf(fp,"Prince:\t %f\n", med->price);
-    fprintf(fp,"Manufactured: ");
-    writeDate(fp,med->mfg);
-    fprintf(fp,"Expiry: ");
-    writeDate(fp,med->exp);
+LinkedList *readReceipts(int id) {
+    FILE *fp;
+    fp = fopen("../files/receipts.bin", "rb");
+    LinkedList *temp = createLinkedList();
+    fread(temp, sizeof(LinkedList), 1, fp);
+    while(temp->id != id && !feof(fp)) {
+        fseek(fp, sizeof(Receipt) * temp->length, SEEK_CUR);
+        fread(temp, sizeof(LinkedList), 1, fp);
+    }
+    if(temp->id != id) {
+        fclose(fp);
+        return createLinkedList();
+    }
+    int l = temp->length;
+    Receipt *receipt =  (Receipt *)malloc(sizeof(Receipt) * l);
+    for(int i = 0; i < l; i++) {
+        fread(&receipt[i], sizeof(Receipt), 1, fp);
+        addNode(temp, createNode(&receipt[i]));
+    }
+    return temp;
+    fclose(fp);
 }
 
-void writeContact(FILE* fp,Contact_Details* cd){
-    fprintf(fp,"Name:\t%s\n", cd->name);
-    fprintf(fp,"Phone:\t%ld\n", cd->phone);
-    fprintf(fp,"Email:\t%s\n", cd->email);
-    fprintf(fp,"Address:\t%s\n", cd->address);
+void writeStore(LinkedList *store) {
+    if(store->length == 0) return;
+    FILE *fp = fopen("../files/store.bin", "ab");
+    Node *curr = store->head;
+    fwrite(store, 1, sizeof(LinkedList), fp);
+    while(curr != NULL) {
+        fwrite(((Crate *)(curr->data)), sizeof(Crate), 1, fp);
+        curr = curr->next;
+    }
+    fclose(fp);
 }
 
+LinkedList *readStore(int id) {
+    FILE *fp;
+    fp = fopen("../files/store.bin", "rb");
+    LinkedList *temp = createLinkedList();
+    fread(temp, sizeof(LinkedList), 1, fp);
+    while(temp->id != id && !feof(fp)) {
+        fseek(fp, sizeof(Crate) * temp->length, SEEK_CUR);
+        fread(temp, sizeof(LinkedList), 1, fp);
+    }
+    if(temp->id != id) {
+        fclose(fp);
+        return createLinkedList();
+    }
+    int l = temp->length;
+    Crate *store =  (Crate *)malloc(sizeof(Receipt) * l);
+    for(int i = 0; i < l; i++) {
+        fread(&store[i], sizeof(Crate), 1, fp);
+        addNode(temp, createNode(&store[i]));
+    }
+    return temp;
+    fclose(fp);
+}
+
+void writePending(LinkedList *pending) {
+    if(pending->length == 0) return;
+    FILE *fp = fopen("../files/pending.bin", "ab");
+    Node *curr = pending->head;
+    fwrite(pending, sizeof(LinkedList), 1, fp);
+    while(curr != NULL) {
+        fwrite(((Receipt *)(curr->data)), sizeof(Receipt), 1, fp);
+        curr = curr->next;
+    }
+    fclose(fp);
+}
+
+LinkedList *readPending(int id) {
+    FILE *fp;
+    fp = fopen("../files/pending.bin", "rb");
+    LinkedList *temp = createLinkedList();
+    fread(temp, sizeof(LinkedList), 1, fp);
+    while(temp->id != id && !feof(fp)) {
+        fseek(fp, sizeof(Receipt) * temp->length, SEEK_CUR);
+        fread(temp, sizeof(LinkedList), 1, fp);
+    }
+    if(temp->id != id) {
+        fclose(fp);
+        return createLinkedList();
+    }
+    int l = temp->length;
+    Receipt *pending =  (Receipt *)malloc(sizeof(Receipt) * l);
+    for(int i = 0; i < l; i++) {
+        fread(&pending[i], sizeof(Receipt), 1, fp);
+        addNode(temp, createNode(&pending[i]));
+    }
+    return temp;
+    fclose(fp);
+}
+
+void writeVertex(Vertex *v) {
+    FILE *fp = fopen("../files/tree.bin", "ab");
+    fwrite(v, sizeof(Vertex), 1, fp);
+    fclose(fp);
+    writeOrders(v->ords);
+    writePending(v->pending);
+    writeReceipts(v->recs);
+}
+
+Vertex *readVertex(int id, FILE *fp) {
+    Vertex *temp = (Vertex *)malloc(sizeof(Vertex));
+    fread(temp, sizeof(Vertex), 1, fp);
+    while(temp->id != id && !feof(fp)) {
+        fread(temp, sizeof(Vertex), 1, fp);
+    }
+    if(temp->id != id) return NULL;
+    temp->ords = readOrders(temp->id);
+    temp->recs = readReceipts(temp->id);
+    temp->pending = readPending(temp->id);
+
+    return temp;
+}
+
+void writeTree(Vertex *root) {
+    if(root == NULL) return;
+    writeVertex(root);
+    Node *child = root->children->head;
+    while(child != NULL) {
+        writeTree(child->data);
+        child = child->next;
+    }
+}
+
+void update(Vertex *root) {
+    remove("../files/tree.bin");
+    remove("../files/orders.bin");
+    remove("../files/receipts.bin");
+    remove("../files/pending.bin");
+    writeTree(root);
+}
+
+Vertex *readTree(int id) {
+    FILE *fp = fopen("../files/tree.bin", "rb");
+    Vertex *v = readVertex(id, fp);
+    if(v == NULL) {
+        fclose(fp);
+        return NULL;
+    }
+    int n = v->child_num;
+    v->children = createLinkedList();
+    for(int i = 1; i <= n; i++) {
+        Vertex *child = readTree(id * 100 + i);
+        if(child != NULL)
+            addNode(v->children, createNode(child));
+    }
+    fclose(fp);
+    return v;
+}
+
+Vertex *refresh() {
+    Vertex *root = (Vertex *)malloc(sizeof(Vertex));
+    root = readTree(MANUFACTURER);
+    return root;
+}

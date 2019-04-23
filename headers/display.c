@@ -88,7 +88,7 @@ printf("\n\nid : %d");
         printf("\n\n %d",((Vertex*)(current->data))->id);
         if(((Vertex*)(current->data))->id == id){
             printVertex(current->data);
-            writeVertex(current->data); 
+            //writeVertex(current->data); 
         }
         current = current->next;
     }    

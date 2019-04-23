@@ -71,7 +71,6 @@ void printReceipt(Receipt *rec) {
 
 void printVertex(Vertex *v) {
     printf("\n\nVertex ID:\t%d\n\n", v->id);
-    printf("%d", v->recs->id);
     if(v->recs->length == 0) {
         printf("No receipts.\n");
     } else {
